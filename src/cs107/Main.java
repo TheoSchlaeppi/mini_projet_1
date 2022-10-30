@@ -47,8 +47,8 @@ public final class Main {
         assert testConcatBytes();
         assert testExtract();
         assert testPartition();
-        testImageToChannels2();
-        //assert testImageToChannels();
+        //testImageToChannels2();
+        assert testImageToChannels();
         //assert testChannelsToImage();
 
         // ========== Test QOIEncoder ==========
@@ -193,15 +193,10 @@ public final class Main {
     @SuppressWarnings("unused")
     private static boolean testImageToChannels(){
         byte[][] output = ArrayUtils.imageToChannels(input);
+        ArrayUtils.printdoublebyte(output);
         return Arrays.deepEquals(output, formattedInput);
     }
-    @SuppressWarnings("unused")
-    public static void testImageToChannels2(){
-        int[][] test = {{16, 1020, 10, 128}, {5, 208, 10, 7}} ;
-        byte[][] output = ArrayUtils.imageToChannels(test);
-        ArrayUtils.printdoublebyte(output);
-        System.out.println((byte));
-    }
+
 
     @SuppressWarnings("unused")
     private static boolean testChannelsToImage(){

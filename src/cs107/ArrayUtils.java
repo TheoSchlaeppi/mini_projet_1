@@ -245,8 +245,11 @@ public final class ArrayUtils {
         int a = 0; //tracker
         for(int i = 0; i < input.length; ++i){
             for(int k = 0; k < input[i].length; ++k){
-                n[a] = extract(fromInt(input[i][k]), 1, 3) ;
-                n[a][3] = fromInt(input[i][k])[3];
+                byte[] b = fromInt(input[i][k]);
+                n[a][0] = b[0];
+                n[a][1] = b[1];
+                n[a][2] = b[2];
+                n[a][3] = b[3];
                 a++ ;
             }
         }
@@ -285,8 +288,9 @@ public final class ArrayUtils {
             for( int j = 0; j < bytes[i].length; ++j){
                 System.out.print(bytes[i][j]+ " ");
             }
+            System.out.println("  |  ");
         }
-        System.out.println(" ");
+
     }
 
 }
