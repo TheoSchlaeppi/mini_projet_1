@@ -246,10 +246,10 @@ public final class ArrayUtils {
         for(int i = 0; i < input.length; ++i){
             for(int k = 0; k < input[i].length; ++k){
                 byte[] b = fromInt(input[i][k]);
-                n[a][0] = b[0];
-                n[a][1] = b[1];
-                n[a][2] = b[2];
-                n[a][3] = b[3];
+                n[a][0] = b[1]; //r
+                n[a][1] = b[2]; //g
+                n[a][2] = b[3]; //b
+                n[a][3] = b[0]; //a
                 a++ ;
             }
         }
