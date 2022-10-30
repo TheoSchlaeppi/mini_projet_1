@@ -245,7 +245,8 @@ public final class ArrayUtils {
         int a = 0; //tracker
         for(int i = 0; i < input.length; ++i){
             for(int k = 0; k < input[i].length; ++k){
-                n[a] = fromInt(input[i][k]);
+                n[a] = extract(fromInt(input[i][k]), 1, 3) ;
+                n[a][3] = fromInt(input[i][k])[3];
                 a++ ;
             }
         }
