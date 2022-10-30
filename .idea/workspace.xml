@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cf39910a-8436-471d-9b1d-3421bf58d1ee" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/EPFL.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/EPFL.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/beach.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/beach.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/cube.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/cube.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/dice.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/dice.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_encode_test.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_encode_test.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_diff.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_diff.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_diff_dump.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_index.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_index.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_index_dump.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_luma.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_luma.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_luma_dump.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_rgb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_rgb.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_rgb_dump.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_rgba.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_rgba.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_rgba_dump.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_run.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_run.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/qoi_op_run_dump.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/random.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/references/random.qoi" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/ArrayUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/Diff.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/Helper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/Hexdump.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/QOIDecoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/QOIEncoder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/QOISpecification.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qoi/provided-code/src/cs107/SignatureChecks.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2GoQwHlRdpYloQX4T1bTF2NyP3W" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/schla/OneDrive/Bureau/EPFL BA 1/Introduction prog/mini_projet_1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf39910a-8436-471d-9b1d-3421bf58d1ee" name="Changes" comment="" />
+      <created>1667052693568</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667052693568</updated>
+      <workItem from="1667052695688" duration="370000" />
+      <workItem from="1667128425806" duration="799000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
