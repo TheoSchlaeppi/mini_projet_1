@@ -275,7 +275,12 @@ public final class ArrayUtils {
         int a = 0; //tracker
         for(int i = 0; i < height; ++i){
             for(int k = 0; k < width; ++k){
-                n[i][k] = toInt(input[a]);
+                byte[] listPassage = input[a];
+                byte varPassage = listPassage[3]; //les prochaines lignes servent à replacer
+                listPassage[3] = listPassage[2];  //le A devant.
+                listPassage[2] = listPassage[1];
+                listPassage[1] = varPassage;
+                n[i][k] = toInt(listPassage);
                 a++ ;
             }
 
