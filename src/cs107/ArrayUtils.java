@@ -271,6 +271,15 @@ public final class ArrayUtils {
      * or width is invalid
      */
     public static int[][] channelsToImage(byte[][] input, int height, int width){
+        assert input != null;
+        assert input.length != height;
+        assert input[0].length != width;
+        for( int i = 0 ; i < input.length; ++i ) {
+            assert input[i] != null;
+            assert input[i].length == input[0].length;
+        }
+
+
         int[][] n = new int[height][width];
         int a = 0; //tracker
         for(int i = 0; i < height; ++i){

@@ -51,10 +51,10 @@ public final class Main {
         assert testChannelsToImage();
 
         // ========== Test QOIEncoder ==========
-        //assert testQoiHeader();
-        //assert testQoiOpRGB();
-        //assert testQoiOpRGBA();
-        //assert testQoiOpIndex();
+        assert testQoiHeader();
+        assert testQoiOpRGB();
+        assert testQoiOpRGBA();
+        assert testQoiOpIndex();
         //assert testQoiOpDiff();
         //assert testQoiOpLuma();
         //assert testQoiOpRun();
@@ -192,7 +192,7 @@ public final class Main {
     @SuppressWarnings("unused")
     private static boolean testImageToChannels(){
         byte[][] output = ArrayUtils.imageToChannels(input);
-        ArrayUtils.printdoublebyte(output);
+        //ArrayUtils.printdoublebyte(output);
         return Arrays.deepEquals(output, formattedInput);
     }
 

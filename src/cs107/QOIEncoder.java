@@ -26,7 +26,23 @@ public final class QOIEncoder {
      * @return (byte[]) - Corresponding "Quite Ok Image" Header
      */
     public static byte[] qoiHeader(Helper.Image image){
-        return Helper.fail("Not Implemented");
+        assert !image.equals(null);
+        assert image.channels() == QOISpecification.RGB || image.channels() == QOISpecification.RGBA;
+        assert image.color_space() == QOISpecification.sRGB || image.color_space() == QOISpecification.ALL;
+        byte[] header = {
+                113,111,105,102,//nombre magique
+                ArrayUtils.fromInt(image.data()[0].length)[0], //Largeur
+                ArrayUtils.fromInt(image.data()[0].length)[1], //Largeur
+                ArrayUtils.fromInt(image.data()[0].length)[2], //Largeur
+                ArrayUtils.fromInt(image.data()[0].length)[3], //Largeur
+                ArrayUtils.fromInt(image.data().length)[0], //Hauteur
+                ArrayUtils.fromInt(image.data().length)[1], //Hauteur
+                ArrayUtils.fromInt(image.data().length)[2], //Hauteur
+                ArrayUtils.fromInt(image.data().length)[3], //Hauteur
+                image.channels(),
+                image.color_space()
+        };
+        return header;
     }
 
     // ==================================================================================
@@ -40,7 +56,10 @@ public final class QOIEncoder {
      * @return (byte[]) - Encoding of the pixel using the QOI_OP_RGB schema
      */
     public static byte[] qoiOpRGB(byte[] pixel){
-        return Helper.fail("Not Implemented");
+        assert pixel.length == 4;
+
+        byte[] arrayReturn = {QOISpecification.QOI_OP_RGB_TAG, pixel[0],pixel[1],pixel[2]};
+        return arrayReturn;
     }
 
     /**
@@ -50,7 +69,13 @@ public final class QOIEncoder {
      * @return (byte[]) Encoding of the pixel using the QOI_OP_RGBA schema
      */
     public static byte[] qoiOpRGBA(byte[] pixel){
-        return Helper.fail("Not Implemented");
+        assert pixel.length == 4;
+        byte[] returned = new byte[5];
+        returned[0] = QOISpecification.QOI_OP_RGBA_TAG;
+        for(int i = 0; i < pixel.length;++i){
+            returned[1+i] = pixel[i];
+        }
+        return returned;
     }
 
     /**
@@ -60,7 +85,9 @@ public final class QOIEncoder {
      * @return (byte[]) - Encoding of the index using the QOI_OP_INDEX schema
      */
     public static byte[] qoiOpIndex(byte index){
-        return Helper.fail("Not Implemented");
+        assert index >= 0 && index <64;
+        byte[] indexWrap = ArrayUtils.wrap(index);
+        return indexWrap;
     }
 
     /**
