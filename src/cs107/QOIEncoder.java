@@ -86,8 +86,9 @@ public final class QOIEncoder {
      */
     public static byte[] qoiOpIndex(byte index){
         assert index >= 0 && index <64;
-        byte[] indexWrap = ArrayUtils.wrap(index);
-        return indexWrap;
+        byte encoding = (byte) (QOISpecification.QOI_OP_INDEX_TAG | index) ;
+        byte[] encodingArray = ArrayUtils.wrap(encoding);
+        return encodingArray;
     }
 
     /**
@@ -98,7 +99,15 @@ public final class QOIEncoder {
      * @return (byte[]) - Encoding of the given difference
      */
     public static byte[] qoiOpDiff(byte[] diff){
-        return Helper.fail("Not Implemented");
+        assert diff.length == 3;
+        assert diff != null;
+        for(int i = 0 ; i < 3; ++i){
+            assert(diff[i]<2)&&(diff[i]>-3);
+        }
+        byte encoding = (byte)((QOISpecification.QOI_OP_DIFF_TAG | (diff[0]+2 <<4)) | ((diff[1]+2 << 2) | (diff[2]+2)));
+        byte[] encodingWrap = ArrayUtils.wrap(encoding);
+        return encodingWrap;
+
     }
 
     /**
@@ -110,7 +119,16 @@ public final class QOIEncoder {
      * @return (byte[]) - Encoding of the given difference
      */
     public static byte[] qoiOpLuma(byte[] diff){
-        return Helper.fail("Not Implemented");
+        assert diff != null;
+        assert diff.length == 3;
+        assert diff[1]< 32 && diff[1]> -33;
+        assert (diff[0]-diff[1]) < 8 && (diff[0]-diff[1]) >-9;
+        assert (diff[2]-diff[1]) < 8 && (diff[2]-diff[1]) >-9;
+
+        byte encoding = (byte)(QOISpecification.QOI_OP_LUMA_TAG | (diff[1]+32));
+        byte encoding2 = (byte)((diff[0]-diff[1] + 8 <<4)|(diff[2]-diff[1]+8));
+        byte[] lumaArray = ArrayUtils.concat(encoding,encoding2);
+        return lumaArray;
     }
 
     /**
@@ -120,7 +138,11 @@ public final class QOIEncoder {
      * @return (byte[]) - Encoding of count
      */
     public static byte[] qoiOpRun(byte count){
-        return Helper.fail("Not Implemented");
+        assert count >= 1 && count <=62;
+
+        byte encoding = (byte) (QOISpecification.QOI_OP_RUN_TAG | (count-1)) ;
+        byte[] encodingArray = ArrayUtils.wrap(encoding);
+        return encodingArray;
     }
 
     // ==================================================================================
