@@ -160,22 +160,40 @@ public final class QOIEncoder {
         //======Variable d'initialisation=========
         byte[] lastPixel = QOISpecification.START_PIXEL;
         byte[][] hachTable = new byte[64][4];
+
         int compteur = 0;
         ArrayList<byte[]> quiteOkImage = new ArrayList<>();
 
         //========================================
         for(int i = 0; i < image.length; ++i){
             //=====Etape 1 =======================
+
             if(lastPixel.equals(image[i])){
+                compteur++ ;
+                if ((compteur == 62) | (i == image.length)) {
+                    quiteOkImage.add(qoiOpRun(compteur)) ;
+                    compteur = 0 ;
+                }
+                continue;
+            }
+            else {
+                if (compteur > 0) {
+                        quiteOkImage.add(qoiOpRun(compteur)) ;
+                        compteur = 0 ;
+                    }
 
             }
             //=====ETAPE 2 =======================
+            
             if(hachTable[QOISpecification.hash(image[i])] == image[i]){
+
                 quiteOkImage.add(qoiOpIndex(QOISpecification.hash(image[i])));
                 lastPixel = image[i];
                 continue;
-            }else{
+            }
+            else {
                 hachTable[QOISpecification.hash(image[i])] = image[i];
+                hachTableTracker[QOISpecification.hash(image[i])] = 1 ;
             }
             //=====ETAPE 3 =======================
             if(lastPixel[3] == image[i][3] &&
@@ -210,15 +228,18 @@ public final class QOIEncoder {
                 quiteOkImage.add(qoiOpRGBA(image[i]));
                 lastPixel = image[i];
             }
-
-
-        }
-        byte[][] concatQOI = quiteOkImage.toArray(new byte[0][]);
-        byte[] concatQOI2 = new byte[concatQOI.length()[0]];       //discussion 7381
-        for(int i = 0; i < concatQOI.length()[0]; ++i){            //ça fonctionne pas encore donc si tu as une idée je suis Op
-            concatQOI2[i] = concatQOI[0][1];
         }
 
+
+        byte[][] concatQOI = (byte[][]) quiteOkImage.toArray(); //discussion 7381
+        byte[] concatQOI2 = new byte[concatQOI[0].length * concatQOI.length];  
+        int k = 0 ;     
+        for(int i = 0; i < concatQOI.length; ++i){    
+            for (int j = 0; j < concatQOI[0].length; ++j){
+            concatQOI2[k] = concatQOI[0][1];
+            k++;
+            }
+        }
         return concatQOI2;
     }
 
