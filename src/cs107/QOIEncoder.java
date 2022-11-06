@@ -1,4 +1,5 @@
 package cs107;
+import java.util.ArrayList;
 
 /**
  * "Quite Ok Image" Encoder
@@ -156,7 +157,69 @@ public final class QOIEncoder {
      * @return (byte[]) - "Quite Ok Image" representation of the image
      */
     public static byte[] encodeData(byte[][] image){
-        return Helper.fail("Not Implemented");
+        //======Variable d'initialisation=========
+        byte[] lastPixel = QOISpecification.START_PIXEL;
+        byte[][] hachTable = new byte[64][4];
+        int compteur = 0;
+        ArrayList<byte[]> quiteOkImage = new ArrayList<>();
+
+        //========================================
+        for(int i = 0; i < image.length; ++i){
+            //=====Etape 1 =======================
+            if(lastPixel.equals(image[i])){
+
+            }
+            //=====ETAPE 2 =======================
+            if(hachTable[QOISpecification.hash(image[i])] == image[i]){
+                quiteOkImage.add(qoiOpIndex(QOISpecification.hash(image[i])));
+                lastPixel = image[i];
+                continue;
+            }else{
+                hachTable[QOISpecification.hash(image[i])] = image[i];
+            }
+            //=====ETAPE 3 =======================
+            if(lastPixel[3] == image[i][3] &&
+                    ((image[i][0]-lastPixel[0]) < 2) && ((image[i][0]-lastPixel[0]) > -3) &&
+                    ((image[i][1]-lastPixel[1]) < 2) && ((image[i][1]-lastPixel[1]) > -3) &&
+                    ((image[i][2]-lastPixel[2]) < 2) && ((image[i][2]-lastPixel[2]) > -3)
+            ){
+                byte[] diff = {(byte)(image[i][0]-lastPixel[0]),(byte)(image[i][1]-lastPixel[1]),(byte)(image[i][2]-lastPixel[2])};
+                quiteOkImage.add(qoiOpDiff(diff));
+                lastPixel = image[i];
+                continue;
+            }
+            //=====ETAPE 4 =======================
+            if(lastPixel[3] == image[i][3] &&
+                    ((image[i][1]-lastPixel[1]) < 32) && ((image[i][1]-lastPixel[1]) > -33) &&
+                    (((image[i][0]-lastPixel[0])-(image[i][1]-lastPixel[1])<8) &&((image[i][0]-lastPixel[0])-(image[i][1]-lastPixel[1])>-9)) &&
+                    (((image[i][2]-lastPixel[2])-(image[i][1]-lastPixel[1])<8) &&((image[i][2]-lastPixel[2])-(image[i][1]-lastPixel[1])>-9))
+            ){
+                byte[] diff = {(byte)(image[i][0]-lastPixel[0]),(byte)(image[i][1]-lastPixel[1]),(byte)(image[i][2]-lastPixel[2])};
+                quiteOkImage.add(qoiOpLuma(diff));
+                lastPixel = image[i];
+                continue;
+            }
+            //=====ETAPE 5 =======================
+            if(lastPixel[3] == image[i][3]){
+                quiteOkImage.add(qoiOpRGB(image[i]));
+                lastPixel = image[i];
+
+            }
+            //=====ETAPE 6 =======================
+            else{
+                quiteOkImage.add(qoiOpRGBA(image[i]));
+                lastPixel = image[i];
+            }
+
+
+        }
+        byte[][] concatQOI = quiteOkImage.toArray(new byte[0][]);
+        byte[] concatQOI2 = new byte[concatQOI.length()[0]];       //discussion 7381
+        for(int i = 0; i < concatQOI.length()[0]; ++i){            //ça fonctionne pas encore donc si tu as une idée je suis Op
+            concatQOI2[i] = concatQOI[0][1];
+        }
+
+        return concatQOI2;
     }
 
     /**

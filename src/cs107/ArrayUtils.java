@@ -105,13 +105,13 @@ public final class ArrayUtils {
      * @return (byte[]) - Big Endian representation of the integer
      */
     public static byte[] fromInt(int value){
-        byte[] b= {0,0,0,0};
+        byte[] encoding= {0,0,0,0};
         for(int i = 0 ; i < 4  ; ++i){
             int q = (value >> i*8) & (0b11111111) ;
-            b[3-i] = (byte) q ;
+            encoding[3-i] = (byte) q ;
         }
 
-        return b ;
+        return encoding ;
     }
 
     // ==================================================================================
@@ -144,19 +144,19 @@ public final class ArrayUtils {
         assert tabs != null;
 
         int taille = 0 ;
-        int a = 0  ;
+        int compteur = 0  ;
         for (int i = 0 ; i < tabs.length ; ++i){
             taille += tabs[i].length ;
             assert tabs[i] != null;
         }
-        byte[] b = new byte[taille] ;
+        byte[] byteTab = new byte[taille] ;
         for (int i = 0 ; i < tabs.length ; ++i) {
             for (int j = 0 ; j < tabs[i].length ; ++j){
-                b[a] = tabs[i][j] ;
-                a++;
+                byteTab[compteur] = tabs[i][j] ;
+                compteur++;
             }
         }
-        return b;
+        return byteTab;
     }
 
     // ==================================================================================
@@ -211,13 +211,13 @@ public final class ArrayUtils {
                 maxsize = sizes[i] ;
             }
         }
-        byte[][] n = new byte[sizes.length][maxsize];
+        byte[][] byteDoubleTab = new byte[sizes.length][maxsize];
 
         for (int j = 0 ; j < sizes.length ; ++j){
-            n[j]= extract(input, start, sizes[j]);
+            byteDoubleTab[j]= extract(input, start, sizes[j]);
             start += sizes[j] ;
         }
-        return  n ;
+        return  byteDoubleTab;
     }
 
     // ==================================================================================
@@ -241,19 +241,19 @@ public final class ArrayUtils {
             assert input[i] != null;
             assert input[i].length == input[0].length;
         }
-        byte[][] n = new byte[input.length*input[0].length][4];
+        byte[][] channels = new byte[input.length*input[0].length][4];
         int a = 0; //tracker
         for(int i = 0; i < input.length; ++i){
             for(int k = 0; k < input[i].length; ++k){
                 byte[] b = fromInt(input[i][k]);
-                n[a][0] = b[1]; //r
-                n[a][1] = b[2]; //g
-                n[a][2] = b[3]; //b
-                n[a][3] = b[0]; //a
+                channels[a][0] = b[1]; //r
+                channels[a][1] = b[2]; //g
+                channels[a][2] = b[3]; //b
+                channels[a][3] = b[0]; //a
                 a++ ;
             }
         }
-        return n;
+        return channels;
     }
 
     /**
@@ -280,7 +280,7 @@ public final class ArrayUtils {
         }
 
 
-        int[][] n = new int[height][width];
+        int[][] image = new int[height][width];
         int a = 0; //tracker
         for(int i = 0; i < height; ++i){
             for(int k = 0; k < width; ++k){
@@ -289,12 +289,12 @@ public final class ArrayUtils {
                 listPassage[3] = listPassage[2];  //le A devant.
                 listPassage[2] = listPassage[1];
                 listPassage[1] = varPassage;
-                n[i][k] = toInt(listPassage);
+                image[i][k] = toInt(listPassage);
                 a++ ;
             }
 
         }
-        return n ;
+        return image ;
     }
     public static void printdoublebyte(byte[][] bytes){
 
