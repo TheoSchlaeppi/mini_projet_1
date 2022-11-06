@@ -171,14 +171,14 @@ public final class QOIEncoder {
             if(lastPixel.equals(image[i])){
                 compteur++ ;
                 if ((compteur == 62) | (i == image.length)) {
-                    quiteOkImage.add(qoiOpRun(compteur)) ;
+                    quiteOkImage.add(qoiOpRun((byte)compteur)) ;
                     compteur = 0 ;
                 }
                 continue;
             }
             else {
                 if (compteur > 0) {
-                        quiteOkImage.add(qoiOpRun(compteur)) ;
+                        quiteOkImage.add(qoiOpRun((byte)compteur)) ;
                         compteur = 0 ;
                     }
 
@@ -193,7 +193,7 @@ public final class QOIEncoder {
             }
             else {
                 hachTable[QOISpecification.hash(image[i])] = image[i];
-                hachTableTracker[QOISpecification.hash(image[i])] = 1 ;
+
             }
             //=====ETAPE 3 =======================
             if(lastPixel[3] == image[i][3] &&
