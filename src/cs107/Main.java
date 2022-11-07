@@ -61,7 +61,7 @@ public final class Main {
         //assert testEncodeData();
 
         // ========== Test QOIDecoder ==========
-        //assert testDecodeHeader();
+        assert testDecodeHeader();
         //assert testDecodeQoiOpRGB();
         //assert testDecodeQoiOpRGBA();
         //assert testDecodeQoiOpDiff();

@@ -252,7 +252,13 @@ public final class QOIEncoder {
      * @throws AssertionError if the image is null
      */
     public static byte[] qoiFile(Helper.Image image){
-        return Helper.fail("Not Implemented");
+        assert image != null;
+        byte[] header = qoiHeader(image);
+        byte[] encoded = encodeData(ArrayUtils.imageToChannels(image.data()));
+
+        byte[] qoiFile = ArrayUtils.concat(header,encoded,QOISpecification.QOI_EOF);
+
+        return qoiFile;
     }
 
 }
