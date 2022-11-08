@@ -82,7 +82,21 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.2.4
      */
     public static byte[] decodeQoiOpDiff(byte[] previousPixel, byte chunk){
-        return Helper.fail("Not Implemented");
+        assert previousPixel != null;
+        assert previousPixel.length ==4;
+        assert (byte)(chunk >>> 6) == QOISpecification.QOI_OP_DIFF_TAG>>>6;
+
+        byte[] chunkList = {
+                (byte)(((chunk >>>4) & 0b11)-2), //extraire dr
+                (byte)(((chunk >>>2) & 0b11)-2), // extraire dg
+                (byte)((chunk & 0b11)-2)         //extraire db
+        };
+        for(int i = 0 ;i < chunkList.length ; ++i){
+            previousPixel[i] += chunkList[i];
+        }
+
+
+        return previousPixel;
     }
 
     /**
@@ -93,7 +107,17 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.2.5
      */
     public static byte[] decodeQoiOpLuma(byte[] previousPixel, byte[] data){
-        return Helper.fail("Not Implemented");
+        byte[] chunkList = new byte[3];
+        byte dg = (byte)(data[0] & 0b111111);
+        chunkList[1] = (byte)(dg-32);
+        chunkList[0] = (byte)(((data[1])>>>4)+dg -8);
+        chunkList[2] = (byte)(((data[1])& 0b1111)+dg-8);
+
+        System.out.println( chunkList[0] + " " + chunkList[1] + " "+ chunkList[2] + " ");
+        for(int i = 0 ; i < chunkList.length; ++i){
+            previousPixel[i] += chunkList[i];
+        }
+        return previousPixel;
     }
 
     /**
