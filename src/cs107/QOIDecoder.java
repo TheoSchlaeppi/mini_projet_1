@@ -108,16 +108,21 @@ public final class QOIDecoder {
      */
     public static byte[] decodeQoiOpLuma(byte[] previousPixel, byte[] data){
         byte[] chunkList = new byte[3];
-        byte dg = (byte)(data[0] & 0b111111);
-        chunkList[1] = (byte)(dg-32);
-        chunkList[0] = (byte)(((data[1])>>>4)+dg -8);
+        byte dg = (byte)(data[0] & 0b111111-32);
+        chunkList[1] = dg;
+        chunkList[0] = (byte)(((data[1]&0b11110000)>>>4)+dg-8);
         chunkList[2] = (byte)(((data[1])& 0b1111)+dg-8);
 
-        System.out.println( chunkList[0] + " " + chunkList[1] + " "+ chunkList[2] + " ");
+
+        byte[] toReturn = new byte[4];
+
+
         for(int i = 0 ; i < chunkList.length; ++i){
-            previousPixel[i] += chunkList[i];
+            toReturn[i] += chunkList[i];
         }
-        return previousPixel;
+        toReturn[3] = previousPixel[3];
+
+        return toReturn;
     }
 
     /**
