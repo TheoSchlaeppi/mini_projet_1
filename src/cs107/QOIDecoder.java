@@ -107,6 +107,11 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.2.5
      */
     public static byte[] decodeQoiOpLuma(byte[] previousPixel, byte[] data){
+        assert previousPixel != null;
+        assert data != null;
+        assert (byte)((data[0])&0b11000000) >>>6 == QOISpecification.QOI_OP_LUMA_TAG >>>6;
+
+
         byte[] chunkList = new byte[3];
         byte dg = (byte)(data[0] & 0b111111-32);
         chunkList[1] = dg;
@@ -118,9 +123,10 @@ public final class QOIDecoder {
 
 
         for(int i = 0 ; i < chunkList.length; ++i){
-            toReturn[i] += chunkList[i];
+            toReturn[i] += previousPixel[i] + chunkList[i];
         }
         toReturn[3] = previousPixel[3];
+        System.out.println(toReturn[0] + " " +toReturn[1] + " " + toReturn[2] + " " +toReturn[3]);
 
         return toReturn;
     }
