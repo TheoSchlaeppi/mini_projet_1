@@ -58,16 +58,18 @@ public final class Main {
         assert testQoiOpDiff();
         assert testQoiOpLuma();
         assert testQoiOpRun();
-        //assert testEncodeData();
+        assert testEncodeData();
+        //pngToQoi("mini_projet_1/references/qoi_op_run.png","truc.qoi");
+        //Diff.diff("mini_projet_1/references/qoi_op_run.qoi","res/truc.qoi");
 
         // ========== Test QOIDecoder ==========
         assert testDecodeHeader();
-        //assert testDecodeQoiOpRGB();
-        //assert testDecodeQoiOpRGBA();
+        assert testDecodeQoiOpRGB();
+        assert testDecodeQoiOpRGBA();
         assert testDecodeQoiOpDiff();
         assert testDecodeQoiOpLuma();
-        //assert testDecodeQoiOpRun();
-        //assert testDecodeData();
+        assert testDecodeQoiOpRun();
+        assert testDecodeData();
 
         System.out.println("All the tests passes. Congratulations");
     }

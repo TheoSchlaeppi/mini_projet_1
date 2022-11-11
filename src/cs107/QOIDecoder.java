@@ -58,7 +58,14 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.2.1
      */
     public static int decodeQoiOpRGB(byte[][] buffer, byte[] input, byte alpha, int position, int idx){
-        return Helper.fail("Not Implemented");
+        assert buffer != null && input!= null;
+        assert buffer.length > position & input.length > idx;
+        assert input.length-position > 3;
+
+        byte[] pixel = ArrayUtils.concat(ArrayUtils.extract(input,idx,QOISpecification.RGB),ArrayUtils.wrap(alpha));
+        buffer[position] = pixel;
+        return QOISpecification.RGB;
+
     }
 
     /**
@@ -71,7 +78,13 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.2.2
      */
     public static int decodeQoiOpRGBA(byte[][] buffer, byte[] input, int position, int idx){
-        return Helper.fail("Not Implemented");
+        assert buffer != null && input!= null;
+        assert buffer.length > position & input.length > idx;
+        assert input.length-position > 4;
+
+        byte[] pixel = ArrayUtils.extract(input,idx,QOISpecification.RGBA);
+        buffer[position] = pixel;
+        return QOISpecification.RGBA;
     }
 
     /**
@@ -91,12 +104,16 @@ public final class QOIDecoder {
                 (byte)(((chunk >>>2) & 0b11)-2), // extraire dg
                 (byte)((chunk & 0b11)-2)         //extraire db
         };
-        for(int i = 0 ;i < chunkList.length ; ++i){
-            previousPixel[i] += chunkList[i];
+        byte[] toReturn = new byte[4];
+
+
+        for(int i = 0 ; i < chunkList.length; ++i){
+            toReturn[i] += previousPixel[i] + chunkList[i];
         }
+        toReturn[3] = previousPixel[3];
 
 
-        return previousPixel;
+        return toReturn;
     }
 
     /**
@@ -126,7 +143,6 @@ public final class QOIDecoder {
             toReturn[i] += previousPixel[i] + chunkList[i];
         }
         toReturn[3] = previousPixel[3];
-        System.out.println(toReturn[0] + " " +toReturn[1] + " " + toReturn[2] + " " +toReturn[3]);
 
         return toReturn;
     }
@@ -141,7 +157,23 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.2.6
      */
     public static int decodeQoiOpRun(byte[][] buffer, byte[] pixel, byte chunk, int position){
-        return Helper.fail("Not Implemented");
+        assert buffer != null;
+        assert buffer.length > position;
+        assert pixel != null;
+        assert pixel.length == 4;
+
+
+
+        int iteration = chunk&0b111111;
+        assert buffer.length > iteration + 1;
+
+
+        for(int i = 0 ; i<= iteration;++i){
+            buffer[position+i] = pixel;
+        }
+        return iteration;
+
+
     }
 
     // ==================================================================================
@@ -157,7 +189,54 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.3
      */
     public static byte[][] decodeData(byte[] data, int width, int height){
-        return Helper.fail("Not Implemented");
+        //=========Variable============================
+        byte[][] imageDecode = new byte[width*height][4];
+
+        byte[] prevPixel = ArrayUtils.extract(data,0,4);
+        imageDecode[0] = prevPixel;
+        byte[][] hachtable = new byte[64][4];
+
+        for (int idata = 4 , idx = 1; idx < imageDecode.length ; ++idx){
+            //========HachTable================
+            hachtable[QOISpecification.hash(prevPixel)] = prevPixel ;
+            System.out.println(prevPixel[0] + " "+ prevPixel[1] + " "+prevPixel[2] + " " +prevPixel[3]);
+            //=========for=====================
+            byte tag = (byte) (data[idata] & 0b11000000);
+            switch (tag) {
+                case 01: //OPdiff
+                    imageDecode[idx] = decodeQoiOpDiff(prevPixel, data[idata]) ;
+                    prevPixel = imageDecode[idx];
+                    idata += 1;
+                case 10: //OPLuma
+                    byte[] dataLuma = ArrayUtils.extract(data,idata,2);
+                    imageDecode[idx] = decodeQoiOpLuma(prevPixel, dataLuma) ;
+                    prevPixel = imageDecode[idx];
+                    idata += 2;
+
+                case 00://OpIndex
+                    imageDecode[idx] = hachtable[(0b00111111 & data[idata])];
+                    prevPixel = imageDecode[idx];
+                    idata += 1;
+
+                case 11 :
+                    if (data[idata] == 0b11111111) { //RGBA
+                        decodeQoiOpRGBA(imageDecode, data, idx, idata);
+                        prevPixel = imageDecode[idx];
+                        idata += 4;
+                    }
+                    if (data[idata] == 0b11111110) { //RGB
+                        decodeQoiOpRGB(imageDecode, data, prevPixel[3], idx, idata);
+                        prevPixel = imageDecode[idx];
+                        idata += 3;
+                    }
+                    else { //RUN
+                        idx += decodeQoiOpRun(imageDecode, prevPixel, data[idata], idx);
+                        prevPixel = imageDecode[idx];
+                        idata += 1;
+                    }
+            }
+        }
+        return imageDecode;
     }
 
     /**

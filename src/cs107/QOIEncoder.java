@@ -163,14 +163,14 @@ public final class QOIEncoder {
 
         int compteur = 0;
         ArrayList<byte[]> quiteOkImage = new ArrayList<>();
-
+        //quiteOkImage.add(qoiOpRGBA(lastPixel));
         //========================================
         for(int i = 0; i < image.length; ++i){
             //=====Etape 1 =======================
 
-            if(lastPixel.equals(image[i])){
+            if(ArrayUtils.equals(lastPixel,image[i])){
                 compteur++ ;
-                if ((compteur == 62) | (i == image.length)) {
+                if ((compteur == 62) || (i == image.length-1)) {
                     quiteOkImage.add(qoiOpRun((byte)compteur)) ;
                     compteur = 0 ;
                 }
@@ -185,7 +185,7 @@ public final class QOIEncoder {
             }
             //=====ETAPE 2 =======================
             
-            if(hachTable[QOISpecification.hash(image[i])] == image[i]){
+            if(ArrayUtils.equals(hachTable[QOISpecification.hash(image[i])], image[i])){
 
                 quiteOkImage.add(qoiOpIndex(QOISpecification.hash(image[i])));
                 lastPixel = image[i];
@@ -231,16 +231,8 @@ public final class QOIEncoder {
         }
 
 
-        byte[][] concatQOI = (byte[][]) quiteOkImage.toArray(); //discussion 7381
-        byte[] concatQOI2 = new byte[concatQOI[0].length * concatQOI.length];  
-        int k = 0 ;     
-        for(int i = 0; i < concatQOI.length; ++i){    
-            for (int j = 0; j < concatQOI[0].length; ++j){
-            concatQOI2[k] = concatQOI[0][1];
-            k++;
-            }
-        }
-        return concatQOI2;
+        byte[] larryList = ArrayUtils.concat(quiteOkImage.toArray(new byte[0][]));
+        return larryList;
     }
 
     /**
