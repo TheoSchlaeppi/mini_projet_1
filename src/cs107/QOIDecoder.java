@@ -1,6 +1,7 @@
 package cs107;
 
 import static cs107.Helper.Image;
+import static cs107.Helper.generateImage;
 
 /**
  * "Quite Ok Image" Decoder
@@ -60,7 +61,7 @@ public final class QOIDecoder {
     public static int decodeQoiOpRGB(byte[][] buffer, byte[] input, byte alpha, int position, int idx){
         assert buffer != null && input!= null;
         assert buffer.length > position & input.length > idx;
-        assert input.length-position > 3;
+        assert input.length-position > 4;
 
         byte[] pixel = ArrayUtils.concat(ArrayUtils.extract(input,idx,QOISpecification.RGB),ArrayUtils.wrap(alpha));
         buffer[position] = pixel;
@@ -80,7 +81,7 @@ public final class QOIDecoder {
     public static int decodeQoiOpRGBA(byte[][] buffer, byte[] input, int position, int idx){
         assert buffer != null && input!= null;
         assert buffer.length > position & input.length > idx;
-        assert input.length-position > 4;
+        assert input.length - position > 4;
 
         byte[] pixel = ArrayUtils.extract(input,idx,QOISpecification.RGBA);
         buffer[position] = pixel;
@@ -130,7 +131,7 @@ public final class QOIDecoder {
 
 
         byte[] chunkList = new byte[3];
-        byte dg = (byte)(data[0] & 0b111111-32);
+        byte dg = (byte)((data[0] & 0b111111)-32);
         chunkList[1] = dg;
         chunkList[0] = (byte)(((data[1]&0b11110000)>>>4)+dg-8);
         chunkList[2] = (byte)(((data[1])& 0b1111)+dg-8);
@@ -165,7 +166,7 @@ public final class QOIDecoder {
 
 
         int iteration = chunk&0b111111;
-        assert buffer.length > iteration + 1;
+        //assert buffer.length > iteration + 1;
 
 
         for(int i = 0 ; i<= iteration;++i){
@@ -189,53 +190,66 @@ public final class QOIDecoder {
      * @throws AssertionError See handouts section 6.3
      */
     public static byte[][] decodeData(byte[] data, int width, int height){
+        assert data != null;
+        assert (width > 0) && (height>0);
+
+
+
         //=========Variable============================
         byte[][] imageDecode = new byte[width*height][4];
 
-        byte[] prevPixel = ArrayUtils.extract(data,0,4);
+        byte[] prevPixel = QOISpecification.START_PIXEL;
         imageDecode[0] = prevPixel;
         byte[][] hachtable = new byte[64][4];
+        int idata = 0;
 
-        for (int idata = 4 , idx = 1; idx < imageDecode.length ; ++idx){
+        for (int idx = 0; idx < imageDecode.length ; ++idx){
             //========HachTable================
             hachtable[QOISpecification.hash(prevPixel)] = prevPixel ;
-            System.out.println(prevPixel[0] + " "+ prevPixel[1] + " "+prevPixel[2] + " " +prevPixel[3]);
+
             //=========for=====================
-            byte tag = (byte) (data[idata] & 0b11000000);
+            byte tag = (byte)( data[idata] >>>6);
             switch (tag) {
-                case 01: //OPdiff
+                case 1: //OPdiff
                     imageDecode[idx] = decodeQoiOpDiff(prevPixel, data[idata]) ;
                     prevPixel = imageDecode[idx];
                     idata += 1;
-                case 10: //OPLuma
+                    continue;
+                case (-2): //OPLuma
                     byte[] dataLuma = ArrayUtils.extract(data,idata,2);
                     imageDecode[idx] = decodeQoiOpLuma(prevPixel, dataLuma) ;
                     prevPixel = imageDecode[idx];
                     idata += 2;
-
-                case 00://OpIndex
+                    continue;
+                case 0://OpIndex
                     imageDecode[idx] = hachtable[(0b00111111 & data[idata])];
                     prevPixel = imageDecode[idx];
-                    idata += 1;
 
-                case 11 :
-                    if (data[idata] == 0b11111111) { //RGBA
-                        decodeQoiOpRGBA(imageDecode, data, idx, idata);
+                    idata += 1;
+                    continue;
+                case -1 :
+                    if (data[idata] == (byte)0b11111111) { //RGBA
+                        decodeQoiOpRGBA(imageDecode, data, idx, idata+1);
+                        prevPixel = imageDecode[idx];
+                        idata += 5;
+                        continue;
+                    }
+                    if (data[idata] == (byte)0b11111110) { //RGB
+                        decodeQoiOpRGB(imageDecode, data, prevPixel[3], idx, idata+1);
                         prevPixel = imageDecode[idx];
                         idata += 4;
-                    }
-                    if (data[idata] == 0b11111110) { //RGB
-                        decodeQoiOpRGB(imageDecode, data, prevPixel[3], idx, idata);
-                        prevPixel = imageDecode[idx];
-                        idata += 3;
+
                     }
                     else { //RUN
                         idx += decodeQoiOpRun(imageDecode, prevPixel, data[idata], idx);
                         prevPixel = imageDecode[idx];
                         idata += 1;
+
                     }
             }
+
         }
+        assert idata == data.length ;
         return imageDecode;
     }
 
@@ -246,7 +260,16 @@ public final class QOIDecoder {
      * @throws AssertionError if content is null
      */
     public static Image decodeQoiFile(byte[] content){
-        return Helper.fail("Not Implemented");
+        byte[] encodedHeader = ArrayUtils.extract(content,0,14);
+
+
+        int[] decodedHeader = decodeHeader(encodedHeader);
+        int w = decodedHeader[0];
+        int h = decodedHeader[1];
+
+        byte[][] imageDecoded = decodeData(ArrayUtils.extract(content,14,content.length-22),w,h );
+        Image image = generateImage(ArrayUtils.channelsToImage(imageDecoded,w,h),(byte)decodedHeader[2],(byte)decodedHeader[3]);
+        return image;
     }
 
 }

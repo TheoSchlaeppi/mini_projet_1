@@ -59,7 +59,8 @@ public final class Main {
         assert testQoiOpLuma();
         assert testQoiOpRun();
         assert testEncodeData();
-        //pngToQoi("mini_projet_1/references/qoi_op_run.png","truc.qoi");
+        qoiToPng("mini_projet_1/references/dice.qoi","truc.png");
+        //Diff.diff("mini_projet_1/references/qoi_op_index.png","res/truc.png");
         //Diff.diff("mini_projet_1/references/qoi_op_run.qoi","res/truc.qoi");
 
         // ========== Test QOIDecoder ==========
@@ -71,7 +72,7 @@ public final class Main {
         assert testDecodeQoiOpRun();
         assert testDecodeData();
 
-        System.out.println("All the tests passes. Congratulations");
+        System.out.println("All the tests passes. Congratulations!!!!!!!!!!");
     }
 
     // ============================================================================================

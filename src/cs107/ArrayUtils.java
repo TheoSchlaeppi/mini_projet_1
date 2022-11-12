@@ -90,11 +90,19 @@ public final class ArrayUtils {
     public static int toInt(byte[] bytes){
         assert bytes.length == 4 ;
         assert bytes != null ;
+
         int number = 0;
         for(int i = 0 ; i < bytes.length; ++i){
-            int k = bytes[bytes.length-1-i] << (i*8);
+            int b = bytes[bytes.length-1-i];
+            if (b < 0) {
+                b = 256 + b ;
+                };
+            int k = b << (i*8);
+
             number += k;
         }
+
+
         return number;
     }
 
